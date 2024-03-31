@@ -38,6 +38,16 @@ namespace EntityFrameworkCore.Data
             return View(await  _context.Students.ToListAsync());
         }
 
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if(id == null) return NotFound();
+
+            var student = await _context.Students.FindAsync(id);
+            if(student == null) return NotFound();
+
+            return View(student);
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
