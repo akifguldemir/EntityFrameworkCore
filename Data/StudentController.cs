@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace EntityFrameworkCore.Data
@@ -28,7 +29,13 @@ namespace EntityFrameworkCore.Data
         {
             _context.Students.Add(student);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Privacy","Home");
+            return RedirectToAction("Index");
+        }
+
+        
+        public async Task<IActionResult> Index()
+        {
+            return View(await  _context.Students.ToListAsync());
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
