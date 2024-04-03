@@ -23,9 +23,14 @@ namespace EntityFrameworkCore.Controllers
 
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var courseRegistrations = await _context
+                                        .CourseRegistrations
+                                        .Include(x => x.Student)
+                                        .Include(x => x.Course)
+                                        .ToListAsync();
+            return View(courseRegistrations);
         }
 
         public async Task<IActionResult> Create()
