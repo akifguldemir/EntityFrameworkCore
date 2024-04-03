@@ -11,3 +11,7 @@ obj/
 *.sln.docstates
 
 wwwroot
+# Ignore SQLite database files
+*.db
+*.db-shm
+*.db-wal
