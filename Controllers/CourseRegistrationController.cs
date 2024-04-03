@@ -30,10 +30,22 @@ namespace EntityFrameworkCore.Controllers
 
         public async Task<IActionResult> Create()
         {
-            ViewBag.allStudents = new SelectList(await _context.Students.ToListAsync(), "Id", "Name");
+            ViewBag.allStudents = new SelectList(await _context.Students.ToListAsync(), "Id", "NameSurname");
             ViewBag.allCourses = new SelectList(await _context.Courses.ToListAsync(), "Id", "Title");
             return View();
         }
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddCourse(CourseRegistration courseRegistration)
+        {
+            courseRegistration.RegisterDate = DateTime.Now;
+           _context.CourseRegistrations.Add(courseRegistration);
+           await _context.SaveChangesAsync();
+           return RedirectToAction("Index");
+        }
+
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
