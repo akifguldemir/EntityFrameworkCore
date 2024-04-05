@@ -15,5 +15,6 @@ namespace EntityFrameworkCore.Data
         public DbSet<Course> Courses => Set<Course>();
         public DbSet<Student> Students => Set<Student>();
         public DbSet<CourseRegistration> CourseRegistrations => Set<CourseRegistration>();
+        public DbSet<Teacher> Teachers => Set<Teacher>();
     }
 }
