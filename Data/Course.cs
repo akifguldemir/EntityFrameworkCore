@@ -9,6 +9,7 @@ namespace EntityFrameworkCore.Data
     {
         public int Id { get; set; }
         public string? Title { get; set; }
+        public Student Student { get; set; } = null!;
 
         public ICollection<CourseRegistration> CourseRegistrations { get; set; } = new List<CourseRegistration>();
 
