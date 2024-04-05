@@ -34,7 +34,11 @@ namespace EntityFrameworkCore.Data
         {
             if(id == null) return NotFound();
 
-            var course = await _context.Courses.FindAsync(id);
+            var course = await _context
+                                .Courses
+                                .Include(c => c.CourseRegistrations)
+                                .ThenInclude(c => c.Student)
+                                .FirstOrDefaultAsync(c => c.Id == id);
             if(course == null) return NotFound();
 
             return View(course);
