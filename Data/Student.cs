@@ -18,5 +18,7 @@ namespace EntityFrameworkCore.Data
                 return this.Name +' '+ this.Surname;
             }
         }
+
+        public ICollection<CourseRegistration> CourseRegistrations { get; set; } = new List<CourseRegistration>();
     }
 }
