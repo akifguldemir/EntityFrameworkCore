@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -22,11 +23,15 @@ namespace EntityFrameworkCore.Data
 
         public async Task<IActionResult> Index()
         {
-            return View(await  _context.Courses.ToListAsync());
+            return View(await  _context
+                                .Courses
+                                .Include(c => c.Teacher) 
+                                .ToListAsync());
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewBag.Teachers = new SelectList(await _context.Teachers.ToListAsync(), "Id", "NameSurname");
             return View();
         }
 
@@ -38,15 +43,25 @@ namespace EntityFrameworkCore.Data
                                 .Courses
                                 .Include(c => c.CourseRegistrations)
                                 .ThenInclude(c => c.Student)
+                                .Select( c => new CourseDTO
+                                { 
+                                    Id = c.Id,
+                                    Title = c.Title,
+                                    TeacherId = c.TeacherId,
+                                    CourseRegistrations = c.CourseRegistrations
+                                }
+                                )
                                 .FirstOrDefaultAsync(c => c.Id == id);
             if(course == null) return NotFound();
+            
+            ViewBag.Teachers = new SelectList(await _context.Teachers.ToListAsync(), "Id", "NameSurname");
 
             return View(course);
         }
          
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int? id, Course model)
+        public async Task<IActionResult> Edit(int id, CourseDTO model)
         {
             if(id != model.Id) return NotFound();
 
@@ -54,7 +69,7 @@ namespace EntityFrameworkCore.Data
             {
                 try
                 {
-                    _context.Update(model);
+                    _context.Update(new Course() { Id = model.Id, Title = model.Title, TeacherId = model.TeacherId });
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateException)
@@ -70,7 +85,7 @@ namespace EntityFrameworkCore.Data
                 }
                 return RedirectToAction("Index");
             }
-
+            ViewBag.Teachers = new SelectList(await _context.Teachers.ToListAsync(), "Id", "NameSurname");
             return View();
         }
 
