@@ -1,0 +1,26 @@
+@model Teacher
+<h2>Add Teacher</h2>
+<hr>
+<form asp-controller="Teacher" asp-action="Add" method="post">
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label">Name</label>
+        <input asp-for="Name" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label asp-for="SurName" class="form-label">Surname</label>
+        <input asp-for="SurName" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label">Email</label>
+        <input asp-for="Email" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label asp-for="Phone" class="form-label">Phone</label>
+        <input asp-for="Phone" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label asp-for="AugurationDate" class="form-label">Auguration Date</label>
+        <input asp-for="AugurationDate" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
