@@ -12,6 +12,13 @@ namespace EntityFrameworkCore.Data
         public int Id { get; set; }
         public string? Name { get; set; }
         public string? SurName { get; set; }
+
+        public string NameSurname
+        {
+            get{
+                return this.Name + ' ' + this.SurName;
+            }
+        }
         public string? Email { get; set; }
         public string? Phone { get; set; }
 
