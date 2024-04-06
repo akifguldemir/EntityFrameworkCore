@@ -6,5 +6,11 @@
         <label asp-for="Title" class="form-label">Title</label>
         <input asp-for="Title" class="form-control">
     </div>
+    <div class="mb-3">
+        <label asp-for="TeacherId" class="form-label">Teacher</label>
+        <select asp-for="TeacherId" class="form-select" asp-items="ViewBag.Teachers">
+            <option value="">Select</option>
+        </select>
+    </div>
     <button type="submit" class="btn btn-primary">Save</button>
 </form>
